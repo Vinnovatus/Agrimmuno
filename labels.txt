@@ -1,0 +1,9 @@
+0 rice_bacterial_leaf_blight
+1 rice_brown_spot
+2 rice_healthy
+3 coffee_healthy
+4 coffee_rust
+5 durian_healthy
+6 durian_rust
+7 orange_healthy
+8 orange_rust
