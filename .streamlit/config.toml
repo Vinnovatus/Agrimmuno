@@ -1,0 +1,11 @@
+[theme]
+primaryColor = "#2E7D32" # Màu xanh lá
+backgroundColor = "#F1F8E9"
+secondaryBackgroundColor = "#DCEDC8"
+textColor = "#1B5E20"
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = false
