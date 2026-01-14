@@ -65,18 +65,71 @@ def get_real_weather(display_name):
         print(f"❌ Connection Error: {e}")
         return fallback
         
-    
-    
 
 def get_action_logic(class_name, weather):
     h, t = weather['humidity'], weather['temp']
     db = {
-        "rice_bacterial_leaf_blight": {"title": "Bạc Lá Lúa", "action": "Ngay lập tức ngừng việc bón tất cả các loại phân đạm và phân bón lá có hàm lượng đạm cao. Tiến hành thay nước trong ruộng nếu có thể để loại bỏ vi khuẩn trôi nổi. Phun các loại thuốc đặc trị vi khuẩn như Kasuran, Totan hoặc Xanthomix vào lúc sáng sớm hoặc chiều mát.", "insight": f"Ẩm độ {h}% cao, khuẩn lây nhanh qua nước. Bệnh do vi khuẩn Xanthomonas oryzae gây ra, thường xuất hiện sau các đợt mưa giông hoặc bão. Vết bệnh chạy dọc mép lá từ chóp xuống, có màu vàng trắng, làm lá khô xác và giảm khả năng quang hợp nghiêm trọng"},
-        "rice_brown_spot": {"title": "Đốm Nâu Lúa", "action": "Ưu tiên bón bổ sung phân Kali và phân lân để tăng sức đề kháng cho bộ rễ. Sử dụng vôi bột để khử phèn nếu đất bị chua. Có thể kết hợp phun bổ sung phân bón lá vi lượng giàu Silic và kẽm để lá lúa cứng cáp hơn, ngăn chặn nấm xâm nhiễm sâu vào tế bào.", "insight": "Đây là dấu hiệu của việc cây lúa đang bị 'đói' dinh dưỡng hoặc đất bị nhiễm phèn, ngộ độc hữu cơ. Vết bệnh là các chấm nhỏ màu nâu tròn hoặc bầu dục, tâm màu xám nhạt, xuất hiện nhiều trên các chân đất nghèo mùn."},
-        "coffee_rust": {"title": "Bệnh Gỉ Sắt Cà Phê", "action": "Thực hiện cắt tỉa các cành bị bệnh nặng và cành sát mặt đất để tạo độ thông thoáng cho vườn, giảm độ ẩm lưu trữ. Sử dụng các loại thuốc chứa gốc đồng hoặc các hoạt chất như Anvil, Tilt Super để phun trực tiếp lên mặt dưới của lá. Sau khi điều trị, cần bón thêm phân hữu cơ để cây phục hồi sức sống.", "insight": f"Nhiệt độ {t}°C ấm áp giúp nấm nảy mầm.Loại bệnh nguy hiểm nhất đối với cây cà phê, do nấm Hemileia vastatrix gây ra. Mặt dưới lá xuất hiện các ổ bột màu cam vàng như gỉ sắt. Bệnh làm rụng lá hàng loạt, cây suy kiệt và có thể gây chết cây nếu không xử lý kịp thời."},
-        "durian_rust": {"title": "Bệnh Gỉ Sắt Sầu Riêng", "action": "Kiểm tra hệ thống thoát nước quanh gốc cây, không để nước đọng lâu ngày. Phun thuốc đặc trị nấm bệnh định kỳ, đặc biệt là vào mùa mưa hoặc giai đoạn chuyển mùa. Bổ sung các chế phẩm sinh học như Trichoderma vào gốc để tiêu diệt mầm bệnh trong đất và bảo vệ bộ rễ.", "insight": "Bệnh phát triển mạnh trong điều kiện vườn rậm rạp, độ ẩm không khí cao (trên 85%). Bệnh khiến lá bị cháy khô từ rìa vào, làm cây mất sức, khó đậu quả hoặc rụng quả non do không đủ chất dinh dưỡng từ lá truyền xuống."},
-        "orange_rust": {"title": "Bệnh Thối Rễ Cam Quýt", "action": "Xới nhẹ lớp đất mặt quanh tán cây và tưới thuốc đặc trị như Ridomil Gold hoặc Aliette trực tiếp vào vùng rễ. Tuyệt đối không bón phân hóa học trong giai đoạn cây đang bị thối rễ vì sẽ làm rễ bị 'cháy' nặng hơn. Cần quét vôi ở gốc cây để ngăn chặn côn trùng và vi khuẩn xâm nhập qua các vết thương hở.", "insight": "Gây ra bởi nấm Phytophthora kết hợp với vi khuẩn, làm thối đen các rễ cám và lây lan lên phần cổ rễ. Cây có biểu hiện vàng lá gân xanh, lá rụng dần và cành bị khô. Đây là bệnh rất khó điều trị dứt điểm nếu để rễ thối quá 50%."},
-        "healthy": {"title": "Cây Khỏe Mạnh", "action": "Cây đang phát triển trong điều kiện sinh thái lý tưởng. Lá có màu xanh đặc trưng, bộ rễ khỏe và không có dấu hiệu xâm nhiễm của vi sinh vật gây hại.", "insight": "Tiếp tục theo dõi lịch trình bón phân định kỳ theo từng giai đoạn sinh trưởng. Thực hiện biện pháp phòng bệnh chủ động bằng cách giữ vườn sạch cỏ dại và kiểm tra mật độ côn trùng định kỳ 1 lần/tuần để đảm bảo cây luôn duy trì trạng thái tốt nhất."}
+    "rice_bacterial_leaf_blight": {
+        "title": "Nhóm Chẩn Đoán: Bạc Lá / Cháy Bìa Lá",
+        "action": "1. Ngừng bón Đạm (N) ngay lập tức. 2. Thay nước ruộng để giảm mật số vi khuẩn. 3. Phun thuốc đặc trị vi khuẩn (Kasuran, Xanthomix). 4. Kiểm tra độ mặn của nước nếu ở vùng ven biển.",
+        "insight": f"Dựa trên Ẩm độ {h}%, hệ thống gợi ý 5 khả năng tương đồng:\n"
+                   "• (1) Bạc lá vi khuẩn (vết bệnh gợn sóng)\n"
+                   "• (2) Cháy bìa lá sinh lý (do gió/mặn)\n"
+                   "• (3) Thiếu hụt Kali (khô từ chóp lá thẳng xuống)\n"
+                   "• (4) Ngộ độc phèn nhôm\n"
+                   "• (5) Vàng lá chín sớm (giai đoạn trỗ)"
+    },
+    "rice_brown_spot": {
+        "title": "Nhóm Chẩn Đoán: Đốm Nâu / Suy Nhược Rễ",
+        "action": "1. Bổ sung ngay Lân và Kali. 2. Bón vôi nếu pH đất thấp. 3. Phun vi lượng Silic và Kẽm để làm dày vách tế bào lá. 4. Kiểm tra rễ xem có bị đen/thối không.",
+        "insight": "AI nhận diện dấu hiệu đốm trên lá, có thể thuộc 5 trường hợp:\n"
+                   "• (1) Đốm nâu (do đất nghèo mùn)\n"
+                   "• (2) Ngộ độc hữu cơ (rễ thối làm lá đốm)\n"
+                   "• (3) Thiếu Magie (vàng giữa gân lá)\n"
+                   "• (4) Đốm tiêm sầm (vết sọc nâu ngắn)\n"
+                   "• (5) Dấu chích hút của côn trùng"
+    },
+    "coffee_rust": {
+        "title": "Nhóm Chẩn Đoán: Nấm Lá Cà Phê",
+        "action": "1. Cắt tỉa cành sát đất tạo độ thông thoáng. 2. Phun thuốc gốc Đồng hoặc Anvil mặt dưới lá. 3. Không tưới nước trực tiếp lên tán lá vào chiều tối.",
+        "insight": f"Nhiệt độ {t}°C thuận lợi cho nấm. Cần đối chiếu 5 biểu hiện:\n"
+                   "• (1) Gỉ sắt (có bột cam mặt dưới lá)\n"
+                   "• (2) Nấm hồng (héo cành nhanh)\n"
+                   "• (3) Thán thư (đốm vòng đồng tâm)\n"
+                   "• (4) Cháy nắng sinh lý\n"
+                   "• (5) Rêu bám bề mặt lá (trong mùa mưa)"
+    },
+    "durian_rust": {
+        "title": "Nhóm Chẩn Đoán: Cháy Lá / Vàng Lá Sầu Riêng",
+        "action": "1. Kiểm tra thoát nước gốc. 2. Phun thuốc nấm định kỳ trong mùa mưa. 3. Bổ sung Trichoderma bảo vệ rễ. 4. Hạn chế phun phân bón lá quá liều.",
+        "insight": "Mã QR ghi nhận dấu hiệu cháy lá. Kiểm tra 5 khả năng:\n"
+                   "• (1) Gỉ sắt sầu riêng (rụng lá già)\n"
+                   "• (2) Cháy lá chết ngọn (Rhizoctonia)\n"
+                   "• (3) Thán thư lá (vết bệnh từ rìa lá)\n"
+                   "• (4) Sốc nước (cháy lá sau mưa lớn)\n"
+                   "• (5) Thiếu Kali (cháy mép lá đều)"
+    },
+    "orange_rust": {
+        "title": "Nhóm Chẩn Đoán: Suy Yếu Cổ Rễ / Vàng Lá",
+        "action": "1. Xới nhẹ đất quanh tán, tưới Ridomil Gold. 2. Tuyệt đối ngừng phân hóa học khi rễ đang thối. 3. Quét vôi gốc cây. 4. Bổ sung hữu cơ hoai mục.",
+        "insight": "Vàng lá có thể không chỉ do nấm. Xét 5 khả năng:\n"
+                   "• (1) Thối rễ Phytophthora\n"
+                   "• (2) Vàng lá gân xanh (HLB - lây do rầy)\n"
+                   "• (3) Thiếu hụt Vi lượng (Sắt/Kẽm)\n"
+                   "• (4) Ngập úng làm thối rễ non\n"
+                   "• (5) Tuyến trùng rễ gây suy kiệt"
+    },
+    "healthy": {
+        "title": "Trạng Thái: Chưa Phát Hiện Bất Thường",
+        "action": "1. Duy trì lịch trình bón phân hữu cơ. 2. Kiểm tra bẫy côn trùng. 3. Thăm vườn định kỳ 1 lần/tuần.",
+        "insight": "AI xác nhận hình ảnh không có dấu hiệu bệnh điển hình. Lưu ý 5 chỉ số:\n"
+                   "• (1) Độ pH đất ổn định\n"
+                   "• (2) Mật độ thiên địch\n"
+                   "• (3) Màu sắc diệp lục\n"
+                   "• (4) Độ tơi xốp của đất\n"
+                   "• (5) Tốc độ ra đọt/chồi non"
+    }
+
     }
     res = db.get(class_name, db["healthy"])
     risk = "CAO" if h > 80 else "TRUNG BÌNH"
@@ -133,11 +186,22 @@ def run_scanner():
                 labels = [l.strip().split(' ', 1)[1] for l in f.readlines()]
             
             best_idx = np.argmax(preds)
-            label = labels[best_idx]
-            conf = f"{preds[0][best_idx]*100:.1f}%"
+            conf = preds[0][best_idx]
+            conf_display = f"{conf * 100:.1f}%"
 
-            info, risk = get_action_logic(label, weather)
-            st.session_state['result'] = {"label": info['title'], "conf": conf, "risk": risk, "ins": info['insight'], "act": info['action']}
+            if conf < 0.9:
+                # Nếu thấp hơn 90%, ghi nhận là không nhận diện được và xóa kết quả cũ
+                st.error("⚠️ Không nhận diện được")
+                st.info("Độ tin cậy quá thấp. Vui lòng chụp lại ảnh rõ nét và gần lá cây hơn.")
+                if 'result' in st.session_state: 
+                    del st.session_state['result']
+            else:
+                # Nếu từ 50% trở lên mới xử lý in ra phân tích
+                label = labels[best_idx]
+                info, risk = get_action_logic(label, weather)
+
+                st.session_state['result'] = {"label": info['title'], "conf": conf_display, "risk": risk, "ins": info['insight'], "act": info['action']}
+
 
     if 'result' in st.session_state:
         r = st.session_state['result']
