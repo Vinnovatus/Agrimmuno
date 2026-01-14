@@ -6,7 +6,12 @@ from database import save_farming_history
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 import time 
-
+# Thêm đoạn này vào đầu app để test
+if "connections" in st.secrets:
+    st.write("✅ Đã nhận cấu hình kết nối!")
+    st.write(f"Email đang dùng: {st.secrets['connections']['gsheets']['client_email']}")
+else:
+    st.error("❌ App chưa nhận được Secrets. Vui lòng kiểm tra lại Settings trên Streamlit Cloud.")
 # 1. Cấu hình trang & CSS (Giữ nguyên phần này)
 st.set_page_config(page_title="Agrimmuno", page_icon="🌿", layout="wide")
 
@@ -179,3 +184,4 @@ elif menu == "Giá thị trường 💰": show_market()
 
 # 5. Chân trang
 st.markdown("<center><p style='color: #888; font-size: 0.8em;'>© 2026 Agrimmuno System | SV_STARTUP VIII</p></center>", unsafe_allow_html=True)
+
